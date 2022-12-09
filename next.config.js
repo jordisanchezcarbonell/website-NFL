@@ -6,7 +6,7 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
 
-    domains: ["tailwindui.com", "images.unsplash.com"],
+    domains: ["tailwindui.com", "images.unsplash.com", "a.espncdn.com"],
   },
 };
 

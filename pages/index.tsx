@@ -4,21 +4,28 @@ import BannerHome from "../src/shared/presentation/components/molecules/Banner";
 import CardTailwind from "../src/shared/presentation/components/atoms/cardTeam";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { GetAllTeams } from "../src/shared/modules/nfl/use-cases/get-all-team";
+import { NoticiaIAPI } from "../src/shared/domain/entities/team/team";
 
 interface CommunityDetailPageProps {
   teams: any;
 }
 
 export default function Home(props: CommunityDetailPageProps) {
-  console.log(props);
-  const arrayTest = Array.from(Array(10).keys());
+  const { teams } = props;
+
   return (
     <div className="container mx-auto">
       <Navbar />
       <BannerHome />
       <div className="container flex m-auto w-full flex-wrap ">
-        {arrayTest.map((x) => (
-          <CardTailwind key={x} />
+        {teams.map((x: NoticiaIAPI) => (
+          <CardTailwind
+            key={x.team.id}
+            nickname={x.team.nickname}
+            logos={{
+              href: x.team.logos[0].href,
+            }}
+          />
         ))}
       </div>
     </div>

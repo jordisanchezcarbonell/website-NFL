@@ -1,33 +1,44 @@
+import { Serializable } from "../../../../interfaces/serializable";
+
 export interface TeamProps {
-  leagues: EmpresaObjectIAPI;
+  sports: Array<{ id: string; uid: string; name: string; slug: string }>;
 }
 export interface EmpresaObjectIAPI {
-  name: string;
-  abbreviation: string;
   teams: Array<NoticiaIAPI>;
 }
 export interface NoticiaIAPI {
-  id: number;
-  uid: string;
-  location: string;
-  name: string;
-  nickname: string;
-  abbreviation: string;
-  color: string;
-  altColor: string;
-  logo: string;
-  wordMark: string;
+  team: {
+    id: number;
+    uid: string;
+    location: string;
+    name: string;
+    nickname: string;
+    abbreviation: string;
+    color: string;
+    altColor: string;
+    logos: Array<{
+      href: string;
+    }>;
+    wordMark: string;
+  };
 }
 
-export class Team {
-  leagues: EmpresaObjectIAPI;
+export interface MonthlyConsumptionDataAPII {
+  datos: {
+    sports: Array<{ id: string; uid: string; name: string; slug: string }>;
+  };
+}
 
-  constructor(props: TeamProps) {
-    this.leagues = props.leagues;
-  }
+export class Team implements Serializable<Team> {
+  teams: Array<NoticiaIAPI> = [];
+  deserialize(input: EmpresaObjectIAPI): Team {
+    console.log("11111111,", input);
+    if (!input) {
+      return this;
+    }
 
-  public static create(props: TeamProps): Team {
-    console.log(props);
-    return new Team(props);
+    this.teams = input.teams;
+
+    return this;
   }
 }

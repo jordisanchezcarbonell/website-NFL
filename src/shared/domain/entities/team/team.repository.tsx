@@ -1,5 +1,5 @@
-import { Team } from "./team";
+import { NoticiaIAPI, Team } from "./team";
 
 export interface TeamRepository {
-  getAllTeams(): Promise<Team>;
+  getAllTeams(): Promise<NoticiaIAPI[]>;
 }
