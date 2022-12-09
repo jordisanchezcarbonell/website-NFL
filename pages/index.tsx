@@ -1,44 +1,36 @@
 import Navbar from "../src/shared/presentation/components/molecules/Navbar";
-import Image from "next/image";
-import Backgrround from "../src/assets/img/Chthr4nWsAAXjIo.jpg";
-export default function Home() {
+
+import BannerHome from "../src/shared/presentation/components/molecules/Banner";
+import CardTailwind from "../src/shared/presentation/components/atoms/cardTeam";
+import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+import { GetAllTeams } from "../src/shared/modules/nfl/use-cases/get-all-team";
+
+interface CommunityDetailPageProps {
+  teams: any;
+}
+
+export default function Home(props: CommunityDetailPageProps) {
+  console.log(props);
+  const arrayTest = Array.from(Array(10).keys());
   return (
-    <div>
+    <div className="container mx-auto">
       <Navbar />
-
-      <header className="relative">
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gray-100" />
-        <div className="mx-auto">
-          <div className="relative shadow-xl sm:overflow-hidden">
-            <div className="absolute inset-0">
-              <Image
-                priority
-                fill
-                className="h-full w-full object-cover"
-                src={Backgrround}
-                placeholder="blur"
-                alt="Coffee grinder"
-              />
-              <div className="absolute inset-0 bg-orange-100 mix-blend-multiply" />
-            </div>
-            <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
-              <p className="relative left-0 right-0 mx-auto mt-5 max-w-xl text-center text-xl  font-semibold uppercase tracking-wide text-orange-600">
-                TEXTO DE PROP
-              </p>
-              <h1 className="mt-1 text-center font-bold uppercase text-gray-900 sm:text-5xl sm:tracking-tight lg:text-7xl">
-                <span className="block text-white">TEXTO DE PROP</span>
-                <span className="block text-orange-500">TEXTO DE PROP</span>
-              </h1>
-
-              <div className="mx-auto mt-10 max-w-xs sm:flex sm:max-w-none sm:justify-center">
-                <button className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-orange-600 shadow-sm hover:bg-orange-100 sm:px-8">
-                  TEXTO DE PROP
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <BannerHome />
+      <div className="container flex m-auto w-full flex-wrap ">
+        {arrayTest.map((x) => (
+          <CardTailwind key={x} />
+        ))}
+      </div>
     </div>
   );
+}
+export async function getServerSideProps(
+  Props: GetServerSidePropsContext
+): Promise<GetServerSidePropsResult<any>> {
+  const teams = await new GetAllTeams().execute();
+  return {
+    props: {
+      teams: teams,
+    },
+  };
 }
